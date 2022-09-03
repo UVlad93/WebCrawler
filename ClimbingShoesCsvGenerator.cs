@@ -8,18 +8,18 @@ namespace WebCrawler
     public class ClimbingShoesCsvGenerator
     {
         public static List<ClimbingShoe> GetClimbingShoesInfo()
-        {
-            string fullUrl = "https://basecamp-shop.com/en/products/climb/climbing-shoes";
-            List<string> shoesLinks = new List<string>();
-
+        {       
+            Console.WriteLine("Paste the location of your Chrome executable below: ");
+            string chromePath = Console.ReadLine();
             var options = new ChromeOptions()
             {
-                BinaryLocation = "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+                BinaryLocation = chromePath,
             };
 
             options.AddArguments(new List<string>() { "headless", "disable-gpu" });
 
             var browser = new ChromeDriver(options);
+            string fullUrl = "https://basecamp-shop.com/en/products/climb/climbing-shoes";
             browser.Navigate().GoToUrl(fullUrl);
 
             var links = browser.FindElements(By.XPath("//div[@class='product-grid-item']"));
@@ -43,8 +43,11 @@ namespace WebCrawler
 
         public static void GenerateCsv(List<ClimbingShoe> climbingShoes)
         {
-            string outputPath = "C:\\Users\\vladu\\Documents\\C# stuff\\WebCrawler\\WebCrawler\\Results\\climbingShoes.csv";
-            using (var writer = new StreamWriter(outputPath))
+            Console.WriteLine("Paste the path where you wish the report to go to: ");
+            string outputPath = Console.ReadLine();
+            string reportPath = outputPath + "\\climbingShoes.csv";
+            
+            using (var writer = new StreamWriter(reportPath))
             using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
             {
                 csv.WriteRecords(climbingShoes);
