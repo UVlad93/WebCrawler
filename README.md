@@ -1,1 +1,1 @@
-WebCrawler
+Simple web crawler written in C# meant to get the brand, model, price and link of climbing shoes from basecamp-shop.com and generate a CSV report with the data.
